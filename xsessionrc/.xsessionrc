@@ -1,39 +1,73 @@
+xrdb -merge ~/.Xresources
+source ~/.profile
+
 # Dynamically detect the touchpad device
-DEVICE_NAME=$(xinput list | grep -i -e "touchpad" -e "trackpad" | grep -oP '^\s*\K[^=]+(?=\sid=)')
+# DEVICE_NAME=$(xinput list | grep -i -e "touchpad" -e "trackpad" | grep -oP '^\s*\K[^=]+(?=\sid=)')
+# if [[ -n "$DEVICE_NAME" ]]; then
+#     DEVICE_ID=$(xinput list | grep "$DEVICE_NAME" | grep -o 'id=[0-9]\+' | grep -o '[0-9]\+')
+#
+#     if [ -n "$DEVICE_ID" ]; then
+#         echo "Configuring touchpad with device ID $DEVICE_ID"
+#
+#         # Enable horizontal scrolling
+#         xinput set-prop "$DEVICE_ID" "libinput Horizontal Scroll Enabled" 1
+#
+#         # Enable left-handed mode
+#         xinput set-prop "$DEVICE_ID" "libinput Left Handed Enabled" 1
+#
+#         # disable middle-click emulation
+#         xinput set-prop "$device_id" "libinput middle emulation enabled" 0
+#
+#         # enable natural scrolling
+#         xinput set-prop "$device_id" "libinput natural scrolling enabled" 1
+#
+#         # adjust pointer speed
+#         # xinput set-prop "$device_id" "libinput accel speed" 0.296296
+#         xinput set-prop "$device_id" "libinput accel speed" 0.444
+#
+#         # enable tap and drag
+#         xinput set-prop "$device_id" "libinput tapping drag enabled" 1
+#
+#         # enable tap-to-click
+#         xinput set-prop "$device_id" "libinput tapping enabled" 1
+#
+#         # enable two-finger scrolling
+#         # xinput set-prop "$device_id" "libinput scroll method enabled" 1, 0, 1
+#     else
+#         echo "touchpad device not found!"
+#     fi
+# fi
+
+DEVICE_NAME=$(xinput list | grep -i -e "touchpad" -e "trackpad" | grep -oP '\b[^=]+\b(?=\s*id=)' | head -n 1 | xargs)
+
 if [[ -n "$DEVICE_NAME" ]]; then
-    DEVICE_ID=$(xinput list | grep "$DEVICE_NAME" | grep -o 'id=[0-9]\+' | grep -o '[0-9]\+')
+    echo "Configuring touchpad: $DEVICE_NAME"
 
-    # If the device ID was found, apply the settings
-    if [ -n "$DEVICE_ID" ]; then
-        echo "Configuring touchpad with device ID $DEVICE_ID"
+    # Enable horizontal scrolling
+    xinput set-prop "$DEVICE_NAME" "libinput Horizontal Scroll Enabled" 1
 
-        # # Disable edge scrolling
-        xinput set-prop "$DEVICE_ID" "libinput Horizontal Scroll Enabled" 0
-        # xinput set-prop "$DEVICE_ID" "libinput Vertical Scroll Enabled" 0
+    # Enable left-handed mode
+    xinput set-prop "$DEVICE_NAME" "libinput Left Handed Enabled" 1
 
-        # Enable left-handed mode
-        xinput set-prop "$DEVICE_ID" "libinput Left Handed Enabled" 1
+    # Disable middle-click emulation
+    xinput set-prop "$DEVICE_NAME" "libinput Middle Emulation Enabled" 0
 
-        # Disable middle-click emulation
-        xinput set-prop "$DEVICE_ID" "libinput Middle Emulation Enabled" 0
+    # Enable natural scrolling
+    xinput set-prop "$DEVICE_NAME" "libinput Natural Scrolling Enabled" 1
 
-        # Enable natural scrolling
-        xinput set-prop "$DEVICE_ID" "libinput Natural Scrolling Enabled" 1
+    # Adjust pointer speed
+    xinput set-prop "$DEVICE_NAME" "libinput Accel Speed" 0.444
 
-        # Adjust pointer speed
-        xinput set-prop "$DEVICE_ID" "libinput Accel Speed" 0.296296
+    # Enable tap and drag
+    xinput set-prop "$DEVICE_NAME" "libinput Tapping Drag Enabled" 1
 
-        # Enable tap and drag
-        xinput set-prop "$DEVICE_ID" "libinput Tapping Drag Enabled" 1
+    # Enable tap-to-click
+    xinput set-prop "$DEVICE_NAME" "libinput Tapping Enabled" 1
 
-        # Enable tap-to-click
-        xinput set-prop "$DEVICE_ID" "libinput Tapping Enabled" 1
-
-        # Enable two-finger scrolling
-        xinput set-prop "$DEVICE_ID" "libinput Scroll Method Enabled" 1, 0, 0
-    else
-        echo "Touchpad device not found!"
-    fi
+    # Enable two-finger scrolling
+    # xinput set-prop "$DEVICE_NAME" "libinput Scroll Method Enabled" 1, 0, 1
+else
+    echo "No touchpad device found!"
 fi
 
 
