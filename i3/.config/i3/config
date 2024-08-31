@@ -230,3 +230,22 @@ for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4
 bindsym $mod+n exec --no-startup-id $HOME/.local/scripts/toggle_warp.sh
 
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+
+assign [class="spotify"] $ws7
+assign [class="thunderbird"] $ws8
+
+## Screenshots
+# bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/screenshot/$(date)"
+# bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/screenshot/$(date)"
+# bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/screenshot/$(date)"
+
+##  Screenshots in files
+bindsym Print exec --no-startup-id maim --format=png "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-all.png"
+bindsym $mod+Print exec --no-startup-id maim --format=png --window $(xdotool getactivewindow) "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-current.png"
+bindsym Shift+Print exec --no-startup-id maim --format=png --select "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-selected.png"
+
+
+## Clipboard Screenshots
+bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select
