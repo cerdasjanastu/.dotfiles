@@ -102,3 +102,28 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# export path=$path:/home/cerdas-janastu/.spicetify
+#
+alias work="cd ~/work/odoo13/ && source venv/bin/activate"
+alias svv="source venv/bin/activate"
+alias tmux-sessionizer="~/.local/scripts/tmux-sessionizer"
+PATH="$HOME/.local/bin:$PATH"
+
+bindkey -s ^f "tmux-sessionizer\n"
+
+cd_to_dir() {
+    local search_dir="${1:-.}"
+    local selected_dir
+    selected_dir=$(find "$search_dir" -type d | fzf +m --height 50% --preview 'tree -C {}')
+    if [[ -n "$selected_dir" ]]; then
+        cd "$selected_dir" || return 1
+    fi
+}
+
+alias cdd="cd_to_dir ~/"
+alias cds="cd_to_dir"
+
+export EDITOR="nvim"
+export VISUAL="nvim"
+
