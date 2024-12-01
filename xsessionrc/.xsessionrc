@@ -1,43 +1,6 @@
 xrdb -merge ~/.Xresources
 source ~/.profile
 
-# Dynamically detect the touchpad device
-# DEVICE_NAME=$(xinput list | grep -i -e "touchpad" -e "trackpad" | grep -oP '^\s*\K[^=]+(?=\sid=)')
-# if [[ -n "$DEVICE_NAME" ]]; then
-#     DEVICE_ID=$(xinput list | grep "$DEVICE_NAME" | grep -o 'id=[0-9]\+' | grep -o '[0-9]\+')
-#
-#     if [ -n "$DEVICE_ID" ]; then
-#         echo "Configuring touchpad with device ID $DEVICE_ID"
-#
-#         # Enable horizontal scrolling
-#         xinput set-prop "$DEVICE_ID" "libinput Horizontal Scroll Enabled" 1
-#
-#         # Enable left-handed mode
-#         xinput set-prop "$DEVICE_ID" "libinput Left Handed Enabled" 1
-#
-#         # disable middle-click emulation
-#         xinput set-prop "$device_id" "libinput middle emulation enabled" 0
-#
-#         # enable natural scrolling
-#         xinput set-prop "$device_id" "libinput natural scrolling enabled" 1
-#
-#         # adjust pointer speed
-#         # xinput set-prop "$device_id" "libinput accel speed" 0.296296
-#         xinput set-prop "$device_id" "libinput accel speed" 0.444
-#
-#         # enable tap and drag
-#         xinput set-prop "$device_id" "libinput tapping drag enabled" 1
-#
-#         # enable tap-to-click
-#         xinput set-prop "$device_id" "libinput tapping enabled" 1
-#
-#         # enable two-finger scrolling
-#         # xinput set-prop "$device_id" "libinput scroll method enabled" 1, 0, 1
-#     else
-#         echo "touchpad device not found!"
-#     fi
-# fi
-
 DEVICE_NAME=$(xinput list | grep -i -e "touchpad" -e "trackpad" | grep -oP '\b[^=]+\b(?=\s*id=)' | head -n 1 | xargs)
 
 if [[ -n "$DEVICE_NAME" ]]; then
@@ -82,7 +45,7 @@ if [[ -n "$TOUCHSCREEN_NAME" ]]; then
         echo "Configuring touchscreen with device ID $TOUCHSCREEN_ID"
 
         # disable touchscreen
-        xinput disable "$TOUCHSCREEN_ID" 0
+        xinput disable "$TOUCHSCREEN_ID"
     else
         echo "Touchscreen device not found!"
     fi

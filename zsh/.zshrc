@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -107,8 +107,19 @@ source $ZSH/oh-my-zsh.sh
 #
 alias work="cd ~/work/odoo13/ && source venv/bin/activate"
 alias svv="source venv/bin/activate"
-alias tmux-sessionizer="~/.local/scripts/tmux-sessionizer"
-PATH="$HOME/.local/bin:$PATH"
+
+if [ -d "$PATH/.local/bin:$PATH" ] ; then
+    PATH=$HOME/.local/bin:$PATH
+fi
+if [ -d "$HOME/.local/scripts:$PATH" ] ; then
+    PATH=$HOME/.local/scripts:$PATH
+fi
+if [ -d "$HOME/.cargo/bin:$PATH" ] ; then
+    PATH=$HOME/.cargo/bin:$PATH
+fi
+if [ -d "$HOME/.spicetify:$PATH" ] ; then
+    PATH=$HOME/.spicetify:$PATH
+fi
 
 bindkey -s ^f "tmux-sessionizer\n"
 
@@ -127,3 +138,5 @@ alias cds="cd_to_dir"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+alias vim="nvim"
+alias nvim-kickstart="NVIM_APPNAME='nvim-kickstart' nvim"
