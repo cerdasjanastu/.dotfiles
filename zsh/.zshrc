@@ -103,22 +103,23 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# export path=$path:/home/cerdas-janastu/.spicetify
-#
 alias work="cd ~/work/odoo13/ && source venv/bin/activate"
 alias svv="source venv/bin/activate"
+alias sodoo="source ~/work/odoo13/venv/bin/activate"
+alias snote="source ~/work/notebook/venv/bin/activate"
+alias fd="fdfind"
 
-if [ -d "$PATH/.local/bin:$PATH" ] ; then
-    PATH=$HOME/.local/bin:$PATH
+if [ -d "$PATH/.local/bin" ] ; then
+    export PATH=$HOME/.local/bin:$PATH
 fi
-if [ -d "$HOME/.local/scripts:$PATH" ] ; then
-    PATH=$HOME/.local/scripts:$PATH
+if [ -d "$HOME/.local/scripts" ] ; then
+    export PATH=$HOME/.local/scripts:$PATH
 fi
-if [ -d "$HOME/.cargo/bin:$PATH" ] ; then
-    PATH=$HOME/.cargo/bin:$PATH
+if [ -d "$HOME/.cargo/bin" ] ; then
+    export PATH=$HOME/.cargo/bin:$PATH
 fi
-if [ -d "$HOME/.spicetify:$PATH" ] ; then
-    PATH=$HOME/.spicetify:$PATH
+if [ -d "$HOME/.spicetify" ] ; then
+    export PATH=$HOME/.spicetify:$PATH
 fi
 
 bindkey -s ^f "tmux-sessionizer\n"
