@@ -1,11 +1,12 @@
 configuration {
-/*	modes: "window,drun,run,ssh";*/
-font: "mono 20";
+	modes: "drun,filebrowser";
+	font: "mono 26";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
 /*	fixed-num-lines: true;*/
 /*	show-icons: false;*/
+/*	preview-cmd: ;*/
 /*	terminal: "rofi-sensible-terminal";*/
 /*	ssh-client: "ssh";*/
 /*	ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";*/
@@ -53,8 +54,9 @@ font: "mono 20";
 /*	normalize-match: false;*/
 /*	steal-focus: false;*/
 /*	application-fallback-icon: ;*/
-/*	refilter-timeout-limit: 8192;*/
+/*	refilter-timeout-limit: 300;*/
 /*	xserver-i300-workaround: false;*/
+/*	completer-mode: "filebrowser";*/
 /*	pid: "/run/user/1000/rofi.pid";*/
 /*	display-window: ;*/
 /*	display-windowcd: ;*/
@@ -64,18 +66,20 @@ font: "mono 20";
 /*	display-combi: ;*/
 /*	display-keys: ;*/
 /*	display-filebrowser: ;*/
+/*	display-recursivebrowser: ;*/
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
-/*	kb-clear-line: "Control+w";*/
+	kb-secondary-copy: "";
+	kb-clear-line: "Control+d";
 /*	kb-move-front: "Control+a";*/
 /*	kb-move-end: "Control+e";*/
-/*	kb-move-word-back: "Alt+b,Control+Left";*/
+	kb-move-word-back: "Control+b,Control+Left";
 /*	kb-move-word-forward: "Alt+f,Control+Right";*/
-/*	kb-move-char-back: "Left,Control+b";*/
+	kb-move-char-back: "Left";
 /*	kb-move-char-forward: "Right,Control+f";*/
-/*	kb-remove-word-back: "Control+Alt+h,Control+BackSpace";*/
+	kb-remove-word-back: "Control+w,Control+BackSpace";
 /*	kb-remove-word-forward: "Control+Alt+d";*/
-/*	kb-remove-char-forward: "Delete,Control+d";*/
+	kb-remove-char-forward: "Delete";
 /*	kb-remove-char-back: "BackSpace,Shift+BackSpace,Control+h";*/
 /*	kb-remove-to-eol: "Control+k";*/
 /*	kb-remove-to-sol: "Control+u";*/
@@ -84,18 +88,18 @@ font: "mono 20";
 /*	kb-accept-custom-alt: "Control+Shift+Return";*/
 /*	kb-accept-alt: "Shift+Return";*/
 /*	kb-delete-entry: "Shift+Delete";*/
-/*	kb-mode-next: "Shift+Right,Control+Tab";*/
-/*	kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab";*/
+	kb-mode-next: "Shift+Right,Tab";
+	kb-mode-previous: "Shift+Left,Shift+ISO_Left_Tab";
 /*	kb-mode-complete: "Control+l";*/
 /*	kb-row-left: "Control+Page_Up";*/
 /*	kb-row-right: "Control+Page_Down";*/
 /*	kb-row-up: "Up,Control+p";*/
 /*	kb-row-down: "Down,Control+n";*/
 /*	kb-row-tab: "";*/
-/*	kb-element-next: "Tab";*/
+	kb-element-next: "";
 /*	kb-element-prev: "ISO_Left_Tab";*/
-/*	kb-page-prev: "Page_Up";*/
-/*	kb-page-next: "Page_Down";*/
+	kb-page-prev: "Page_Up";
+	kb-page-next: "Page_Down";
 /*	kb-row-first: "Home,KP_Home";*/
 /*	kb-row-last: "End,KP_End";*/
 /*	kb-row-select: "Control+space";*/
@@ -103,7 +107,7 @@ font: "mono 20";
 /*	kb-ellipsize: "Alt+period";*/
 /*	kb-toggle-case-sensitivity: "grave,dead_grave";*/
 /*	kb-toggle-sort: "Alt+grave";*/
-/*	kb-cancel: "Escape,Control+g,Control+bracketleft";*/
+	kb-cancel: "Control+c,Escape,Control+g,Control+bracketleft";
 /*	kb-custom-1: "Alt+1";*/
 /*	kb-custom-2: "Alt+2";*/
 /*	kb-custom-3: "Alt+3";*/
@@ -133,6 +137,8 @@ font: "mono 20";
 /*	kb-select-8: "Super+8";*/
 /*	kb-select-9: "Super+9";*/
 /*	kb-select-10: "Super+0";*/
+/*	kb-entry-history-up: "Control+Up";*/
+/*	kb-entry-history-down: "Control+Down";*/
 /*	ml-row-left: "ScrollLeft";*/
 /*	ml-row-right: "ScrollRight";*/
 /*	ml-row-up: "ScrollUp";*/
@@ -149,4 +155,5 @@ font: "mono 20";
       sorting-method:    "name";
   }
 }
-@theme "/usr/share/rofi/themes/Monokai.rasi"
+
+@theme "~/.config/rofi/theme.rasi"

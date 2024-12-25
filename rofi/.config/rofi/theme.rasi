@@ -1,0 +1,99 @@
+/** 
+* Edited from Monokai and other theme
+*/
+
+* {
+    background-color : transparent;
+    text-color       : @fg0;
+    margin           : 0px;
+    padding          : 0px;
+    spacing          : 0px;
+
+    bg0              : #212121F2;
+    bg1              : #2A2A2A;
+    bg2              : #3D3D3D80;
+    bg3              : #4CAF50F2;
+    fg0              : #E6E6E6;
+    fg1              : #FFFFFF;
+    fg2              : #969696;
+    fg3              : #3D3D3D;
+}
+
+message {
+    border           : 0;
+    margin           : 15px 0px 10px 0px;
+    border-radius    : 20px;
+    border-color     : @bg2;
+    background-color : @bg2;
+}
+
+window {
+    border           : 0;
+    padding          : 5px;
+    border-radius    : 20px;
+    background-color : @bg0;
+}
+
+mainbox {
+    padding : 15px;
+}
+
+inputbar {
+    background-color : @bg1;
+    border-color     : @bg3;
+    border           : 5px;
+    border-radius    : 20px;
+    padding          : 5px 15px;
+    spacing          : 10;
+}
+
+prompt {
+    text-color : #ffffff;
+}
+
+entry {
+    placeholder       : "Search";
+    placeholder-color : #00C2BF;
+}
+
+textbox {
+    padding : 10px 20px;
+}
+
+listview {
+    background-color : transparent;
+    margin           : 15px 0 0;
+    lines            : 15;
+    columns          : 1;
+    fixed-height     : true;
+    scrollbar        : true;
+}
+
+element {
+    border        : 0;
+    padding       : 5px 15px;
+    spacing       : 1px;
+    border-radius : 20px;
+}
+
+element normal active {
+    text-color : @bg3;
+}
+
+element alternate active {
+    text-color : @bg3;
+}
+
+element selected normal, element selected active {
+    background-color : @bg3;
+}
+
+element-icon {
+    size           : 1em;
+    vertical-align : 0.5;
+}
+
+element-text {
+    text-color : inherit;
+}
+
