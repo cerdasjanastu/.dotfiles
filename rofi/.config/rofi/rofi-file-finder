@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+    fdfind . ~
+else
+    xdg-open "$1" > /dev/null 2>&1 &
+fi
+
