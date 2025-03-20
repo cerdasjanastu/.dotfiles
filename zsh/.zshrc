@@ -108,6 +108,7 @@ alias svv="source venv/bin/activate"
 alias sodoo="source ~/work/odoo13/venv/bin/activate"
 alias snote="source ~/work/notebook/venv/bin/activate"
 alias fd="fdfind"
+alias .="nvim ."
 
 if [ -d "$PATH/.local/bin" ] ; then
     export PATH=$HOME/.local/bin:$PATH
@@ -121,6 +122,7 @@ fi
 if [ -d "$HOME/.spicetify" ] ; then
     export PATH=$HOME/.spicetify:$PATH
 fi
+export PATH=$PATH:/usr/local/go/bin
 
 bindkey -s ^f "tmux-sessionizer\n"
 
@@ -141,3 +143,7 @@ export VISUAL="nvim"
 
 alias vim="nvim"
 alias nvim-kickstart="NVIM_APPNAME='nvim-kickstart' nvim"
+
+export PATH=$PATH:/home/cerdas/.spicetify
+bindkey "^ " autosuggest-accept
+export PYTHONSTARTUP=~/.pythonrc
