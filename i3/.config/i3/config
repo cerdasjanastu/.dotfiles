@@ -65,6 +65,7 @@ tiling_drag modifier titlebar
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 # bindsym $mod+Return exec alacritty
+# bindsym $mod+Return exec ghostty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -242,7 +243,5 @@ bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t ima
 bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 bindsym Ctrl+Shift+Print exec --no-startup-id maim --select
 
-bindsym $mod+Shift+p exec --no-startup-id "firefox --profile $HOME/.mozilla/firefox/uaqfe3t1.adsf"
-bindsym $mod+Ctrl+Shift+p exec --no-startup-id "firefox --profile $HOME/.mozilla/firefox/uaqfe3t1.adsf --private-window"
 bindsym $mod+Shift+d exec --no-startup-id "rofi -modi dirs:~/.config/rofi/rofi-dir-finder,files:~/.config/rofi/rofi-file-finder -matching regex -show"
 
