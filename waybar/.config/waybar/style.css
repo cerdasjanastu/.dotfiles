@@ -1,0 +1,90 @@
+@define-color white #ffffff;
+@define-color black #000000;
+@define-color blue #0000ff;
+@define-color redish #f22c29;
+
+* {
+    font-family: "MesloLGS Nerd Font Mono Bold";
+    font-size: 16px;
+    min-height: 0;
+    font-weight: bold;
+}
+
+window#waybar {
+    background: transparent;
+    background-color: @black;
+    color: @white;
+    transition-property: background-color;
+    transition-duration: 0.1s;
+}
+
+#workspaces button {
+    padding: 0 4px;
+    min-width: 20px;
+}
+
+#workspaces button.active {
+    background-color: rgba(128, 128, 128, 0.4);
+    color: @white;
+    border-bottom: 2px solid @white;
+}
+
+#workspaces button.urgent {
+    background-color: @redish;
+}
+
+#pipewire,
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#wireplumber,
+#tray,
+#network,
+#mode,
+#scratchpad {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#clock {
+    color: @maroon;
+    border-bottom: 2px solid @maroon;
+}
+
+#clock.date {
+    color: @mauve;
+    border-bottom: 2px solid @mauve;
+}
+
+#pulseaudio {
+    color: @blue;
+    border-bottom: 2px solid @blue;
+}
+
+#network {
+    color: @yellow;
+    border-bottom: 2px solid @yellow;
+}
+
+#idle_inhibitor {
+    margin-right: 12px;
+    color: #7cb342;
+}
+
+#idle_inhibitor.activated {
+    color: @red;
+}
+
+#battery {
+    color: @green;
+    border-bottom: 2px solid @green;
+}
+
