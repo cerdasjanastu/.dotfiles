@@ -2,10 +2,12 @@
 @define-color black #000000;
 @define-color blue #0000ff;
 @define-color redish #f22c29;
+@define-color yellow #ffff00;
+@define-color green #00ff00;
 
 * {
     font-family: "MesloLGS Nerd Font Mono Bold";
-    font-size: 16px;
+    font-size: 24px;
     min-height: 0;
     font-weight: bold;
 }
@@ -15,18 +17,27 @@ window#waybar {
     background-color: @black;
     color: @white;
     transition-property: background-color;
-    transition-duration: 0.1s;
 }
 
 #workspaces button {
     padding: 0 4px;
     min-width: 20px;
+    color: @white;
+    background-color: @black;
 }
 
 #workspaces button.active {
     background-color: rgba(128, 128, 128, 0.4);
     color: @white;
+    font-weight: bold;
     border-bottom: 2px solid @white;
+}
+
+#workspaces button:hover {
+    background-color: rgba(128, 128, 128, 0.4);
+    color: @redish;
+    box-shadow: inherit;
+    text-shadow: inherit;
 }
 
 #workspaces button.urgent {
@@ -46,32 +57,28 @@ window#waybar {
 #network,
 #mode,
 #scratchpad {
-  margin-top: 2px;
-  margin-bottom: 2px;
-  margin-left: 4px;
-  margin-right: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 #clock {
     color: @maroon;
-    border-bottom: 2px solid @maroon;
 }
 
 #clock.date {
     color: @mauve;
-    border-bottom: 2px solid @mauve;
 }
 
 #pulseaudio {
-    color: @blue;
-    border-bottom: 2px solid @blue;
+    color: @white;
 }
 
 #network {
-    color: @yellow;
-    border-bottom: 2px solid @yellow;
+    color: @white;
 }
 
 #idle_inhibitor {
@@ -84,7 +91,6 @@ window#waybar {
 }
 
 #battery {
-    color: @green;
-    border-bottom: 2px solid @green;
+    color: @redishblue;
 }
 
