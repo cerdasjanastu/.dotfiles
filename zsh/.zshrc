@@ -103,6 +103,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export PAGER="less"
+
 alias work="cd ~/work/odoo13/ && source venv/bin/activate"
 alias svv="source venv/bin/activate"
 alias sodoo="source ~/work/odoo13/venv/bin/activate"
