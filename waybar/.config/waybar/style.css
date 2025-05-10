@@ -1,6 +1,6 @@
 * {
     font-family: JetbrainsMono Nerd Font;
-    font-size: 20px;
+    font-size: 22px;
     min-height: 0;
     padding-right: 2px;
     padding-left: 2px;
@@ -14,31 +14,6 @@
     margin: 2px 2px;
 }
 
-#workspaces {
-    border-radius: 5px;
-    margin: 5px;
-    background: #101010;
-}
-
-#workspaces button {
-    color: #babbf1;
-    min-width: 20px;
-    border-radius: 5px;
-    padding: 0.4rem;
-}
-
-#workspaces button.active {
-    background-color: rgba(128, 128, 128, 0.7);
-    color: #99d1db;
-    border-radius: 5px;
-    border-bottom: 3px solid #ffffff;
-}
-
-#workspaces button:hover {
-    color: #85c1dc;
-    border-radius: 5px;
-}
-
 #custom-music,
 #tray,
 #backlight,
@@ -48,23 +23,54 @@
 #network,
 #cpu,
 #memory,
+#bluetooth,
+#workspaces,
 #custom-lock {
     background-color: #101010;
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
+    margin: 5px 0;
+    border-radius: 20px;
 }
 
-#memory {
-    border-radius: 0px 5px 5px 0px;
+#workspaces {
+    margin-left: 5rem;
+}
+
+#workspaces button {
+    color: #babbf1;
+    min-width: 20px;
+}
+
+#workspaces button.active {
+    background-color: rgba(128, 128, 128, 0.7);
+    color: #99d1db;
+    border-bottom: 3px solid #ffffff;
+}
+
+#workspaces button:hover {
+    color: #85c1dc;
 }
 
 #clock {
     color: #8caaee;
-    border-radius: 5px;
-    margin-right: 5rem;
+    margin-right: 2rem;
+}
+
+#network {
+    margin-right: 10px;
+}
+
+#memory {
+    border-radius: 0px 0px 0px 0px;
+}
+
+#cpu {
+    border-radius: 20px 0px 0px 20px;
 }
 
 #battery {
     color: #a6d189;
+    border-radius: 0px 20px 20px 0px;
 }
 
 #battery.charging {
@@ -77,28 +83,27 @@
 
 #backlight {
     color: #e5c890;
-}
-
-#backlight,
-#battery {
-    border-radius: 0;
+    border-radius: 0px 0px 0px 0px;
 }
 
 #pulseaudio {
     color: #ea999c;
-    border-radius: 5px 0px 0px 5%;
-}
-
-#custom-music {
-    color: #ca9ee6;
-    border-radius: 5px;
+    border-radius: 0px 0px 0px 0px;
 }
 
 #custom-lock {
-    border-radius: 5px 0px 0px 5px;
     color: #babbf1;
 }
 
+#bluetooth {
+    margin-left: 2rem;
+    border-radius: 20px 0px 0px 20px;
+}
+
 #tray {
-    border-radius: 5px;
+    border-radius: 0px 0px 0px 0px;
+}
+
+#custom-lock {
+    border-radius: 0px 0px 0px 0px;
 }
