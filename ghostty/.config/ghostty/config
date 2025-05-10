@@ -15,8 +15,8 @@ cursor-style-blink = false
 cursor-click-to-move = true
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 1
-background-opacity = 1
-background-blur-radius = 0
+background-opacity = 0.8
+background-blur = true
 unfocused-split-opacity = 0.85
 scrollback-limit = 10000000
 
