@@ -1,6 +1,6 @@
 configuration {
 	modes: "drun,filebrowser";
-	font: "mono 26";
+	font: "JetBrainsMono Nerd Font 24";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
