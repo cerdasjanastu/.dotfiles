@@ -142,6 +142,7 @@ alias cds="cd_to_dir"
 
 export EDITOR="nvim"
 export VISUAL="nvim"
+export SUDO_EDITOR=$EDITOR
 
 alias vim="nvim"
 alias nvim-kickstart="NVIM_APPNAME='nvim-kickstart' nvim"
