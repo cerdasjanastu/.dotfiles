@@ -32,21 +32,3 @@ if [[ -n "$DEVICE_NAME" ]]; then
 else
     echo "No touchpad device found!"
 fi
-
-
-# Dynamically detect the touchscreen device
-TOUCHSCREEN_NAME=$(xinput list | grep -i -e "touchscreen" | grep -oP '^\s*\K[^=]+(?=\sid=)')
-
-if [[ -n "$TOUCHSCREEN_NAME" ]]; then
-    TOUCHSCREEN_ID=$(xinput list | grep "$TOUCHSCREEN_NAME" | grep -o 'id=[0-9]\+' | grep -o '[0-9]\+')
-
-    # If the touchscreen ID was found, apply the settings
-    if [ -n "$TOUCHSCREEN_ID" ]; then
-        echo "Configuring touchscreen with device ID $TOUCHSCREEN_ID"
-
-        # disable touchscreen
-        xinput disable "$TOUCHSCREEN_ID"
-    else
-        echo "Touchscreen device not found!"
-    fi
-fi
