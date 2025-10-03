@@ -1,6 +1,6 @@
 font-size = 16
 
-theme = tokyonight
+theme = TokyoNight
 
 background = #000000
 foreground = #ffffff
@@ -145,7 +145,7 @@ gtk-tabs-location = bottom
 gtk-titlebar-hide-when-maximized = true
 adw-toolbar-style = flat
 gtk-wide-tabs = false
-gtk-adwaita = true
+# gtk-adwaita = true
 desktop-notifications = true
 bold-is-bright = true
 term = xterm-ghostty
