@@ -105,12 +105,20 @@ source $ZSH/oh-my-zsh.sh
 
 export PAGER="less"
 
-alias work="cd ~/work/odoo13/ && source venv/bin/activate"
-alias svv="source venv/bin/activate"
-alias sodoo="source ~/work/odoo13/venv/bin/activate"
-alias snote="source ~/work/notebook/venv/bin/activate"
-alias fd="fdfind"
+alias work="cd ~/Work/odoo13/ && source .venv/bin/activate"
+alias sodoo="source ~/Work/odoo13/.venv/bin/activate"
+alias snote="source ~/Work/notebook/venv/bin/activate"
 alias .="nvim ."
+
+svv() {
+    if [ -d "venv" ]; then
+        source venv/bin/activate
+    elif [ -d ".venv" ]; then
+        source .venv/bin/activate
+    else
+        echo "No virtual environment found (venv or .venv)."
+    fi
+}
 
 if [ -d "$PATH/.local/bin" ] ; then
     export PATH=$HOME/.local/bin:$PATH
@@ -127,18 +135,8 @@ fi
 export PATH=$PATH:/usr/local/go/bin
 
 bindkey -s ^f "tmux-sessionizer\n"
+bindkey '^\' autosuggest-toggle
 
-cd_to_dir() {
-    local search_dir="${1:-.}"
-    local selected_dir
-    selected_dir=$(find "$search_dir" -type d | fzf +m --height 50% --preview 'tree -C {}')
-    if [[ -n "$selected_dir" ]]; then
-        cd "$selected_dir" || return 1
-    fi
-}
-
-alias cdd="cd_to_dir ~/"
-alias cds="cd_to_dir"
 
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -150,3 +148,28 @@ alias nvim-kickstart="NVIM_APPNAME='nvim-kickstart' nvim"
 export PATH=$PATH:/home/cerdas/.spicetify
 bindkey "^ " autosuggest-accept
 export PYTHONSTARTUP=~/.pythonrc
+
+# opencode
+export PATH=/home/cerdas/.opencode/bin:$PATH
+
+# platformio
+export PATH=/home/cerdas/.platformio/penv/bin:$PATH
+
+# # pnpm
+# export PNPM_HOME="/home/cerdas/.local/share/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
+# # pnpm end
+# export PATH="$PNPM_HOME/bin:$PATH"
+
+# j / Ctrl-G: fuzzy jump to a project root or git worktree (branch-labeled).
+source "$HOME/.dotfiles/zsh/jump.zsh"
+
+alias claude-personal='CLAUDE_CONFIG_DIR="$HOME/.claude-personal" claude'
+alias claude-other='CLAUDE_CONFIG_DIR="$HOME/.claude-other" claude'
+
+alias c='claude'
+alias cc='claude-personal'
+alias ccc='claude-other'

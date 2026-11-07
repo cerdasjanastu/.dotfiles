@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Record a visit to a directory, for frecency ranking in the `j` picker.
+# History is "<path>\t<count>\t<last-visit-epoch>", one line per directory.
+# This runs on every cd, so it is a single awk pass, not a shell loop.
+set -uo pipefail
+p=${1:-}
+[[ -n $p && -d $p ]] || exit 0
+p=${p%/}
+
+state="${XDG_STATE_HOME:-$HOME/.local/state}/jump"
+mkdir -p "$state" 2>/dev/null || exit 0
+hist="$state/history"
+tmp=$(mktemp "$state/.hist.XXXXXX") || exit 0
+trap 'rm -f "$tmp"' EXIT
+
+awk -F'\t' -v OFS='\t' -v p="$p" -v now="$(date +%s)" '
+    $1 == p { print $1, $2 + 1, now; seen = 1; next }
+    NF >= 3 { print }
+    END     { if (!seen) print p, 1, now }
+' "$hist" 2>/dev/null > "$tmp" || printf '%s\t1\t%s\n' "$p" "$(date +%s)" > "$tmp"
+
+# Keep the file bounded; drop the least recently visited beyond 2000 entries.
+sort -t$'\t' -k3,3nr "$tmp" | head -2000 > "$tmp.s" 2>/dev/null && mv "$tmp.s" "$hist"

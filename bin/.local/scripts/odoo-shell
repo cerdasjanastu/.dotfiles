@@ -1,0 +1,9 @@
+#!/bin/bash
+
+pkill -9 -f "python.*odoo-bin shell.*"
+
+cd /home/cerdas/Work/odoo13/
+source /home/cerdas/Work/odoo13/.venv/bin/activate
+python /home/cerdas/Work/odoo13/odoo-bin shell \
+    -c /home/cerdas/Work/odoo13/odoo_shell.conf \
+    --shell-interface ipython -d dboct26

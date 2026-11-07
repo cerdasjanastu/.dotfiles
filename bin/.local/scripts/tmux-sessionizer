@@ -14,6 +14,8 @@ CONFIG_FILE="$CONFIG_DIR/tmux-sessionizer.conf"
 # TS_EXTRA_SEARCH_PATHS=(~/ghq:3 ~/Git:3 ~/.config:2)
 # # if set this override the TS_MAX_DEPTH (1)
 # TS_MAX_DEPTH=2
+# # If set, every git worktree of these repos is added to the list
+# TS_WORKTREE_REPOS=(~/Work/odoo13/custom_module)
 # ------------------------
 
 # test if the config file exists
@@ -91,12 +93,18 @@ find_dirs() {
 
         [[ -d "$path" ]] && find "$path" -mindepth 1 -maxdepth "${depth:-${TS_MAX_DEPTH:-1}}" -path '*/.git' -prune -o -type d -print
     done
+
+    # git worktrees can live at any depth, so ask git for them
+    for repo in "${TS_WORKTREE_REPOS[@]}"; do
+        git -C "$repo" worktree list --porcelain 2>/dev/null | sed -n 's/^worktree //p'
+    done
 }
 
 if [[ $# -eq 1 ]]; then
     selected="$1"
 else
-    selected=$(find_dirs | fzf)
+    # a worktree can also be found by a search path; show it once
+    selected=$(find_dirs | awk '!seen[$0]++' | fzf)
 fi
 
 if [[ -z $selected ]]; then

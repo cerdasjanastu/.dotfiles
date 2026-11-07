@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Preview a directory or a file for the `j` picker.
+set -uo pipefail
+p=${1:-}
+[[ -n $p ]] || exit 0
+
+if [[ -d $p ]]; then
+    ls -A --color=always --group-directories-first -- "$p" 2>/dev/null | head -60
+elif [[ -f $p ]]; then
+    # Binary files get described rather than dumped into the terminal.
+    if file -L --mime-encoding -b -- "$p" 2>/dev/null | grep -q binary; then
+        file -L -b -- "$p"
+        printf '%s\n' "$(du -h -- "$p" | cut -f1) on disk"
+    elif command -v bat >/dev/null 2>&1; then
+        bat --style=numbers --color=always --line-range=:120 -- "$p" 2>/dev/null
+    else
+        head -120 -- "$p"
+    fi
+fi

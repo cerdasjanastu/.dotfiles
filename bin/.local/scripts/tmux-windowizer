@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/work ~/projects ~/ ~/personal ~/work/odoo13/custom_module/ ~/work/odoo13/custom_module_nfcapp/ -mindepth 1 -maxdepth 1 -type d | fzf --cycle)
+    selected=$(find ~/Work ~/Projects ~/ ~/personal ~/Work/odoo13/custom_module/ ~/Work/odoo13/custom_module_nfcapp/ -mindepth 1 -maxdepth 1 -type d | fzf --cycle)
 fi
 
 if [[ -z $selected ]]; then

@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+# Emit "display<TAB>path" candidate lines for the `j` fuzzy jumper.
+#
+#   jump-list roots        project roots + git worktrees, labeled by branch
+#   jump-list sub <path>   directories beneath <path>, gitignore-aware
+#   jump-list files <path> files beneath <path>, gitignore-aware
+#   jump-list root <path>  the project/worktree root containing <path>
+#   jump-list label <mode> <path>   prompt text for the picker
+#
+# `sub` and `files` accept a file path too, and use its parent directory, so
+# the picker can toggle between modes without tracking where it started.
+#
+# Roots come from $JUMP_ROOTS (space separated); see jump.zsh.
+set -uo pipefail
+
+: "${JUMP_ROOTS:=$HOME/Work $HOME/personal $HOME/Projects}"
+
+# Junk to skip when descending. .claude holds agent worktrees, which are
+# reachable from `roots` mode already and would otherwise drown a project.
+PRUNE=(.git .claude node_modules .venv venv __pycache__ .mypy_cache
+       .pytest_cache .cache .next .tox target dist build)
+
+roots() {
+    local -a dirs
+    read -ra dirs <<<"$JUMP_ROOTS"
+
+    {
+        # Every worktree of every repo found, with its branch.
+        find "${dirs[@]}" -maxdepth 3 -name .git -printf '%h\n' 2>/dev/null |
+        sort -u |
+        while IFS= read -r repo; do
+            git -C "$repo" worktree list --porcelain 2>/dev/null
+            echo    # ensure a blank line terminates the final block
+        done |
+        awk '
+            /^worktree / { p = substr($0, 10); br = ""; next }
+            /^branch /   { br = $2; sub(/^refs\/heads\//, "", br); next }
+            /^detached/  { br = "detached"; next }
+            /^$/         { if (p != "") print p "\t" br; p = ""; next }
+            END          { if (p != "") print p "\t" br }
+        '
+
+        # Every top-level dir under the roots, so non-git dirs are reachable.
+        local root
+        for root in "${dirs[@]}"; do
+            [[ -d $root ]] || continue
+            find "$root" -mindepth 1 -maxdepth 1 -type d -printf '%p\t\n' 2>/dev/null
+        done
+    } |
+    awk -F'\t' -v home="$HOME" '
+        $1 == "" || seen[$1]++ { next }     # worktrees come first, keep branch
+        { order[++n] = $1; branch[$1] = $2 }
+        END {
+            for (i = 1; i <= n; i++) {
+                p = order[i]
+                name = p; sub(/.*\//, "", name)
+                disp = p; sub("^" home, "~", disp)
+                b = branch[p] ? "[" branch[p] "]" : ""
+                printf "%-34s %-26s %s\t%s\n", name, b, disp, p
+            }
+        }
+    ' |
+    rank
+}
+
+# Reorder "display<TAB>path" lines so places you actually use float to the top.
+# Score is visit count decayed by age, the way zoxide weighs frecency; ties keep
+# their original order, so the branch-labeled worktrees stay grouped as before.
+rank() {
+    local hist="${XDG_STATE_HOME:-$HOME/.local/state}/jump/history"
+    [[ -f $hist ]] || { cat; return; }
+
+    awk -F'\t' -v hist="$hist" -v now="$(date +%s)" '
+        BEGIN {
+            while ((getline line < hist) > 0) {
+                n = split(line, a, "\t")
+                if (n >= 3) { cnt[a[1]] = a[2]; last[a[1]] = a[3] }
+            }
+        }
+        {
+            p = $2; s = 0
+            if (p in cnt) {
+                age = now - last[p]
+                d = (age < 3600) ? 4 : (age < 86400) ? 2 : (age < 604800) ? 0.5 : 0.25
+                s = cnt[p] * d
+            }
+            printf "%012.4f\t%s\n", s, $0
+        }
+    ' |
+    sort -t$'\t' -k1,1r -s |
+    cut -f2-
+}
+
+# Resolve an argument that may be a file into the directory to search.
+basedir() {
+    local p=${1%/}
+    [[ -d $p ]] && { printf '%s' "$p"; return; }
+    printf '%s' "$(dirname -- "$p")"
+}
+
+# Shared listing: $1 = base dir, $2 = fd --type value, $3 = include base itself
+walk() {
+    local base=$1 kind=$2 self=$3
+    local -a args=(--type "$kind" --hidden --follow --max-depth 6 --color never)
+    local d
+    for d in "${PRUNE[@]}"; do args+=(--exclude "$d"); done
+
+    {
+        [[ $self == yes ]] && printf '%s\n' "$base"
+        fd "${args[@]}" . "$base" 2>/dev/null
+    } |
+    awk -F'\t' -v base="$base" '
+        {
+            rel = $0
+            if (rel == base) rel = "."
+            else sub("^" base "/", "", rel)
+            printf "%s\t%s\n", rel, $0
+        }
+    '
+}
+
+# Walk up to the nearest git worktree root, else the nearest direct child of
+# a $JUMP_ROOTS entry, else the containing directory. This is what Ctrl-D
+# returns to: the project you were searching, not the file's parent.
+projroot() {
+    local d; d=$(basedir "${1:?usage: jump-list root <path>}")
+    local top; top=$(git -C "$d" rev-parse --show-toplevel 2>/dev/null)
+    if [[ -n $top ]]; then printf '%s' "$top"; return; fi
+
+    local -a dirs; read -ra dirs <<<"$JUMP_ROOTS"
+    local cur=$d root
+    while [[ $cur == /* && $cur != / ]]; do
+        for root in "${dirs[@]}"; do
+            [[ $(dirname -- "$cur") == "${root%/}" ]] && { printf '%s' "$cur"; return; }
+        done
+        cur=$(dirname -- "$cur")
+    done
+    printf '%s' "$d"
+}
+
+# Prompt text, so the picker never labels itself with a file name.
+label() {
+    local mode=${1:?} path=${2:?} base
+    case $mode in
+        proj) base=$(projroot "$path") ;;
+        *)    base=$(basedir  "$path") ;;
+    esac
+    if [[ $mode == file ]]; then printf '%s/ * ' "$(basename -- "$base")"
+    else                         printf '%s/ '   "$(basename -- "$base")"
+    fi
+}
+
+sub() {
+    local base; base=$(basedir "${1:?usage: jump-list sub <path>}")
+    [[ -d $base ]] || return 0
+    walk "$base" d yes | rank   # the directory itself stays selectable
+}
+
+files() {
+    local base; base=$(basedir "${1:?usage: jump-list files <path>}")
+    [[ -d $base ]] || return 0
+    walk "$base" f no
+}
+
+case "${1:-roots}" in
+    roots) roots ;;
+    sub)   shift; sub "$@" ;;
+    files) shift; files "$@" ;;
+    root)  shift; projroot "$@" ;;
+    label) shift; label "$@" ;;
+    *)     echo "usage: jump-list roots|sub <path>|files <path>|root <path>|label <mode> <path>" >&2; exit 2 ;;
+esac

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Copy a path to the system clipboard, whichever clipboard tool this session has.
+set -uo pipefail
+[[ $# -ge 1 ]] || { echo "usage: jump-copy <text>" >&2; exit 2; }
+
+if [[ -n ${WAYLAND_DISPLAY:-} ]] && command -v wl-copy >/dev/null 2>&1; then
+    printf '%s' "$1" | wl-copy
+elif command -v xclip >/dev/null 2>&1; then
+    printf '%s' "$1" | xclip -selection clipboard
+elif command -v xsel >/dev/null 2>&1; then
+    printf '%s' "$1" | xsel --clipboard --input
+else
+    echo "jump-copy: no clipboard tool (install wl-clipboard or xclip)" >&2
+    exit 1
+fi
